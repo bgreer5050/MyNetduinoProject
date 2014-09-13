@@ -15,25 +15,31 @@ namespace NetduinoApplication1
         {
             //// write your code here
 
-            //bool x = true;
+            bool x = true;
 
             OutputPort port8 = new OutputPort(Pins.GPIO_PIN_D8, true);
             OutputPort port7 = new OutputPort(Pins.GPIO_PIN_D7, false);
-            //OutputPort led = new OutputPort(Pins.ONBOARD_LED, false);
+            OutputPort led = new OutputPort(Pins.ONBOARD_LED, false);
 
-            ////while(x)
-            ////{
-            ////    led.Write(true);
-            ////    Thread.Sleep(3000);
-            ////    led.Write(false);
-            ////    Thread.Sleep(3000);
+            while (x)
+            {
+                led.Write(true);
+                port7.Write(true);
 
-            ////}
+                Thread.Sleep(2000);
+
+                led.Write(false);
+                port7.Write(false);
+
+                Thread.Sleep(2000);
+
+
+            }
             //Thread.Sleep(Timeout.Infinite);
 
-            Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].EnableDhcp();
-            WebServer webServer = new WebServer();
-            webServer.ListenForRequest();
+            //Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].EnableDhcp();
+            //WebServer webServer = new WebServer();
+            //webServer.ListenForRequest();
         }
 
     }
