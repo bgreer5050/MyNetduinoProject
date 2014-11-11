@@ -22,7 +22,11 @@ namespace NetduinoApplication1
                 //Initialize Socket class
                 socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 //Request and bind to an IP from DHCP server
+                //IPAddress address = new IPAddress(167823217);
+            
                 socket.Bind(new IPEndPoint(IPAddress.Any, 80));
+               // socket.Bind(new IPEndPoint(address, 80));
+
                 //Debug print our IP address
                 Debug.Print(Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].IPAddress);
                 var x = Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].IPAddress.ToString();
@@ -57,10 +61,73 @@ namespace NetduinoApplication1
                             string request = new string(Encoding.UTF8.GetChars(buffer));
                             Debug.Print(request);
                             //Compose a response
-                            string response = @"<img src='http://www.seeedstudio.com/depot/images/product/Netduino%20plus2.jpg' />";
+                            string response = @"<center>";
+                
+                            response += @"<img src=http://www.seeedstudio.com/depot/images/product/Netduino%20plus2.jpg />";
+                            response += @"<br />";
+                            response += @"<hr />";
+
+                            response += @"<h3 style='background-color:yellow'>Apollo has detected that the 15500 drawbench has been down for 22 minutes.  Please log the reason
+                            to restart your machine</h3>";
+
+                            response += @"<div class='btn-group btn-group-lg'>";
+
+                            response += @"<button type='button' class='btn btn-primary btn-sm'style='margin:5px';>Tooling</button>";
+                            response += @"<button type='button' class='btn btn-primary btn-sm'style='margin:5px';>Maintenance</button>";
+                            response += @"<button type='button' class='btn btn-primary btn-sm'style='margin:5px';>Break</button>";
+                            response += @"<button type='button' class='btn btn-primary btn-sm'style='margin:5px';>Start Up</button>";
+                            response += @"</div>";
+
+                            //*****************************************Radio*******************************************************
+                            response += @"<div>";
+                            response += @"<div class='radio'>";
+                            response += @"<label>";
+                            response += @"<input type='radio' name='rdoDown' value='Tooling'>";
+                            response += "Tooling";
+                            response += @"</label>";
+                            response += @"</div>";
+
+
+                            response += @"<div class='radio'>";
+                            response += @"<label>";
+                            response += @"<input type='radio' name='rdoDown' value='Maintenance'>";
+                            response += "Maintenance";
+                            response += @"</label>";
+                            response += @"</div>";
+
+
+                            response += @"<div class='radio'>";
+                            response += @"<label>";
+                            response += @"<input type='radio' name='rdoDown' value='Break'>";
+                            response += "Break";
+                            response += @"</label>";
+                            response += @"</div>";
+
+
+                            response += @"<div class='radio'>";
+                            response += @"<label>";
+                            response += @"<input type='radio' name='rdoDown' value='Start Up'>";
+                            response += "Start Up";
+                            response += @"</label>";
+
+                            response += @"</div>";
+                            response += @"</div>";
+
+                            response += @"</center>";
+                            //*******************************************End Radio***************************************************
+                            response += @"<link rel='stylesheet' href='//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css' />";
+                            response += @"<link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css' />";
+
+                            response += @"<script src='//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'></script>";
+                            response += @"<script src='//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>";
+                            response += @"<script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js'></script>";
+
                             
-                            
+                                                        
+
                             string header = "HTTP/1.0 200 OK\r\nContent-Type: image; charset=utf-8\r\nContent-Length: " + response.Length.ToString() + "\r\nConnection: close\r\n\r\n";
+                             header = "HTTP/1.0 200 OK\r\nContent-Type: text/html; charset=utf-8\r\nContent-Length: " + response.Length.ToString() + "\r\nConnection: close\r\n\r\n";
+
                             clientSocket.Send(Encoding.UTF8.GetBytes(header), header.Length, SocketFlags.None);
                             clientSocket.Send(Encoding.UTF8.GetBytes(response), response.Length, SocketFlags.None);
                             //Blink the onboard LED
